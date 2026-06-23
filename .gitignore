@@ -1,0 +1,10 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Local env files (never commit API keys — use GitHub repo secrets instead)
+.env

@@ -1,0 +1,64 @@
+name: Fetch market signals
+
+# WHAT THIS DOES
+# Runs scripts/fetch_signals.py on GitHub's servers (which HAVE internet),
+# then commits the JSON result into the repo at data/signals-latest.json.
+# Claude web — connected to this repo via the GitHub connector — can then
+# READ that always-fresh file without needing network access itself.
+
+on:
+  # Run automatically on a schedule. This cron = "at minute 0 of every hour"
+  # (UTC). Adjust as you like; e.g. "0 */4 * * *" = every 4 hours.
+  schedule:
+    - cron: "0 * * * *"
+  # Also allow running it by hand from the GitHub "Actions" tab.
+  workflow_dispatch:
+
+# Let the workflow push commits back to the repo.
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Check out the repo so we have the scripts and can commit results.
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # 2. Install Python.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # 3. Run the fetch script and write its JSON to data/signals-latest.json.
+      #    The script uses only the Python standard library, so there is
+      #    nothing to pip install. API keys are optional — if you add them as
+      #    repo secrets (Settings -> Secrets and variables -> Actions), the
+      #    funding-rate / Glassnode signals will populate too; otherwise they
+      #    return "Unavailable" (never fabricated).
+      - name: Fetch signals
+        env:
+          COINGLASS_API_KEY: ${{ secrets.COINGLASS_API_KEY }}
+          GLASSNODE_API_KEY: ${{ secrets.GLASSNODE_API_KEY }}
+        run: |
+          mkdir -p data
+          python scripts/fetch_signals.py > data/signals-latest.json
+          # Also keep a dated snapshot so you build up a history over time.
+          cp data/signals-latest.json "data/signals-$(date -u +%Y-%m-%d).json"
+
+      # 4. Commit and push, but only if the data actually changed.
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          # "git diff --cached --quiet" exits non-zero if there ARE staged
+          # changes; in that case we commit and push. If nothing changed, skip.
+          if git diff --cached --quiet; then
+            echo "No signal changes to commit."
+          else
+            git commit -m "Update market signals ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push
+          fi

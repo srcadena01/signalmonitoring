@@ -1,0 +1,5 @@
+# This folder holds signal data written by the GitHub Action
+# (.github/workflows/fetch-signals.yml). The action writes:
+#   data/signals-latest.json     -> always the most recent fetch
+#   data/signals-YYYY-MM-DD.json -> a dated snapshot per run-day
+# Claude web, connected to this repo, reads these files for current data.
