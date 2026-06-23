@@ -3,98 +3,77 @@
 Fetches Bitcoin and macro market signals from real data sources for the
 signal-monitoring-agent-skill.
 
+Design notes:
+  - The set of signals, their human labels, source names, key requirements,
+    and the plain-language ALIASES that map to them all live in the companion
+    file `signals.json` (the "registry"). Adding/renaming a signal is mostly a
+    JSON edit — the Python below just fetches and dispatches.
+  - You can ask for signals by exact name OR by natural phrasing; the resolver
+    matches your words against each signal's aliases.
+  - Unsupported requests are reported clearly (with the list of what IS
+    supported), never faked.
+
 Sources used:
-  - CoinGecko   (free, no API key)        -> dominance, price/volatility
-  - Farside Investors (free, scraped)     -> spot Bitcoin ETF flows
-  - Coinglass   (API key required)        -> perpetual funding rates
-  - Glassnode   (API key required)        -> on-chain metrics (optional extras)
-  - stooq.com   (free, no API key)        -> DXY (US Dollar Index)
+  - CoinGecko    (free, no key)      -> dominance, price, realized volatility
+  - Farside      (free; r.jina.ai)   -> spot Bitcoin ETF flows
+  - Yahoo Finance(free, no key)      -> DXY (US Dollar Index)
+  - Coinglass    (key required)      -> perpetual funding rates
+  - Glassnode    (key required)      -> on-chain extras (optional)
 
-API keys (only needed for Coinglass / Glassnode) are read from environment
-variables so no secrets are hardcoded:
-  COINGLASS_API_KEY
-  GLASSNODE_API_KEY
+API keys are read from environment variables so nothing secret is hardcoded:
+  COINGLASS_API_KEY, GLASSNODE_API_KEY
 
-Currently, do not have access to these API keys
-
-Every function returns a dict with a consistent shape:
-  {
-    "value": <number or string>,
-    "trend": <string, optional>,
-    "source": <string, URL or provider name>,
-    "timestamp": <ISO8601 UTC string>,
-  }
-or, if the data could not be retrieved:
-  {
-    "value": "Unavailable",
-    "reason": <string>,
-    "source": <string>,
-    "timestamp": <ISO8601 UTC string>,
-  }
-
-This mirrors the skill's guardrail: "If data is unavailable, state
-'Unavailable'." Never fabricate values.
+Every fetcher returns a dict: {"value", "trend", "source", "timestamp"} on
+success, or {"value": "Unavailable", "reason", ...} on failure. Guardrail:
+if data is unavailable, say "Unavailable" — never fabricate values.
 """
 
 import json
-# Used to make the collected information readable
 import os
 import re
-# 'Regular expressions'; used to scrape raw text
 import statistics
 import sys
-# Gives access to system-specific parameters, functions & environment
 import urllib.error
-# Distiguishes errors
 import urllib.request
-# Only works when run in the user's own environment if not given network access
 from datetime import datetime, timezone
-# Used to check data staleness, calculate halving cycle position, timestamps
 
 USER_AGENT = "Mozilla/5.0 (signal-monitoring-agent-skill)"
-# identification when making an HTTP request
-TIMEOUT = 15 #seconds
+TIMEOUT = 15  # seconds before giving up on a slow/dead server
+
+# Where the registry lives — next to this script, so it's found no matter the
+# working directory the script is launched from.
+REGISTRY_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "signals.json")
 
 
 def _now():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
-#readable timestamps
 
 
 def _get(url, headers=None):
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, **(headers or {})})
     with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
         return resp.read()
-#carrying out the actual data request, and returning what's collected
 
 
 def _unavailable(source, reason):
     return {"value": "Unavailable", "reason": reason, "source": source, "timestamp": _now()}
-#Clearly state when unable to find relevant data
 
 
 # ---------------------------------------------------------------------------
-# CoinGecko (free, no key) — used to collect data about dominance, price, realized volatility
+# CoinGecko (free, no key) — dominance, price, realized volatility
 # ---------------------------------------------------------------------------
 
 def get_bitcoin_dominance():
-    """Current BTC market dominance (%) via CoinGecko /global."""
     source = "CoinGecko (https://api.coingecko.com/api/v3/global)"
     try:
         data = json.loads(_get("https://api.coingecko.com/api/v3/global"))
         pct = data["data"]["market_cap_percentage"]["btc"]
-        return {
-            "value": round(pct, 2),
-            "trend": None,
-            "source": source,
-            "timestamp": _now(),
-        }
+        return {"value": round(pct, 2), "trend": None, "source": source, "timestamp": _now()}
     except (urllib.error.URLError, KeyError, json.JSONDecodeError) as e:
         return _unavailable(source, str(e))
 
 
 def get_btc_price_usd():
-    """Current BTC/USD spot price via CoinGecko simple price endpoint."""
     source = "CoinGecko (https://api.coingecko.com/api/v3/simple/price)"
     try:
         data = json.loads(_get(
@@ -112,11 +91,7 @@ def get_btc_price_usd():
 
 
 def get_btc_realized_volatility(days=30):
-    """
-    Annualized realized volatility of BTC over the trailing `days` window,
-    computed from daily log returns via CoinGecko market_chart.
-    """
-    source = f"CoinGecko (https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?days={days})"
+    source = f"CoinGecko (market_chart, {days}d)"
     try:
         data = json.loads(_get(
             f"https://api.coingecko.com/api/v3/coins/bitcoin/market_chart"
@@ -125,12 +100,8 @@ def get_btc_realized_volatility(days=30):
         prices = [p[1] for p in data["prices"]]
         if len(prices) < 3:
             return _unavailable(source, "Insufficient price history returned")
-        returns = []
-        for i in range(1, len(prices)):
-            if prices[i - 1] > 0:
-                returns.append((prices[i] / prices[i - 1]) - 1)
-        daily_std = statistics.stdev(returns)
-        annualized_pct = daily_std * (365 ** 0.5) * 100
+        returns = [(prices[i] / prices[i - 1]) - 1 for i in range(1, len(prices)) if prices[i - 1] > 0]
+        annualized_pct = statistics.stdev(returns) * (365 ** 0.5) * 100
         return {
             "value": round(annualized_pct, 2),
             "trend": f"{days}-day window, annualized",
@@ -142,60 +113,70 @@ def get_btc_realized_volatility(days=30):
 
 
 # ---------------------------------------------------------------------------
-# Farside Investors (free, scraped HTML) — used to spot Bitcoin ETF flows
+# Farside Investors — spot Bitcoin ETF flows (free, via r.jina.ai when blocked)
 # ---------------------------------------------------------------------------
+# Farside hides its page behind Cloudflare, which often blocks plain scripts.
+# We try the site directly, then fall back to the free r.jina.ai reader proxy,
+# which loads the page (solving the challenge) and returns clean text.
 
-def get_bitcoin_etf_flows():
-    """
-    Latest daily total net flow (USD millions) across US spot Bitcoin ETFs,
-    scraped from the Farside Investors flow table.
-    """
-    source = "Farside Investors (https://farside.co.uk/btc/)"
+_FARSIDE_DATE_PAT = re.compile(r"\b(\d{2}\s+[A-Za-z]{3}\s+\d{4})\b")
+
+
+def _to_number(text):
+    cleaned = text.strip().replace(",", "").replace("(", "-").replace(")", "")
+    try:
+        return float(cleaned)
+    except ValueError:
+        return None
+
+
+def _fetch_farside_text():
+    # Attempt 1: direct (fast, but often Cloudflare-blocked).
     try:
         html = _get("https://farside.co.uk/btc/").decode("utf-8", errors="ignore")
-        if "Just a moment" in html or "cf-mitigated" in html or "challenge-platform" in html:
-            return _unavailable(source, "Blocked by Cloudflare bot-challenge page (no real data returned)")
-        # Real daily rows look like:
-        # ['04 Jun 2026', '47.7', '(5.5)', ..., '3.2']  -> date + per-issuer
-        # columns + a trailing "Total" column, 14 cells wide on the BTC
-        # page. We take the last such row as the most recent date.
-        rows = re.findall(r"<tr[^>]*>(.*?)</tr>", html, re.S)
-        date_pat = re.compile(r"^\d{2}\s+[A-Za-z]{3}\s+\d{4}$")
-        num_pat = re.compile(r"^\(?-?[\d,]*\.?\d+\)?$")
-        latest_value, latest_date = None, None
-        for row in rows:
-            cells = re.findall(r"<td[^>]*>(.*?)</td>", row, re.S)
-            if len(cells) < 3:
-                continue
-            texts = [re.sub(r"<[^>]+>", "", c).strip() for c in cells]
-            if not date_pat.match(texts[0]):
-                continue
-            if not all(num_pat.match(t) for t in texts[1:]):
-                continue
-            last_cell_text = texts[-1].replace(",", "").replace("(", "-").replace(")", "")
-            try:
-                value = float(last_cell_text)
-            except ValueError:
-                continue
-            latest_value, latest_date = value, texts[0]
-        if latest_value is None:
-            return _unavailable(source, "Could not find a parsable daily flow row")
-        return {
-            "value": f"${latest_value:.1f}M",
-            "trend": f"as of {latest_date}",
-            "source": source,
-            "timestamp": _now(),
-        }
-    except urllib.error.URLError as e:
-        return _unavailable(source, str(e))
+        if "Just a moment" not in html and "challenge-platform" not in html:
+            return html
+    except urllib.error.URLError:
+        pass
+    # Attempt 2: free reader proxy that bypasses Cloudflare.
+    try:
+        return _get("https://r.jina.ai/https://farside.co.uk/btc/").decode("utf-8", errors="ignore")
+    except urllib.error.URLError:
+        return None
+
+
+def _parse_farside_flows(text):
+    # Works on both the site's HTML and the proxy's Markdown: each daily line
+    # is a date followed by several numbers, the last being that day's "Total".
+    results = []
+    for line in text.splitlines():
+        date_match = _FARSIDE_DATE_PAT.search(line)
+        if not date_match:
+            continue
+        numbers = [n for n in (_to_number(c) for c in re.split(r"[|\s]+", line[date_match.end():])) if n is not None]
+        if len(numbers) >= 2:  # real rows have per-issuer columns + a Total
+            results.append((date_match.group(1), numbers[-1]))
+    return results
+
+
+def get_bitcoin_etf_flows():
+    source = "Farside Investors (https://farside.co.uk/btc/, via r.jina.ai when blocked)"
+    text = _fetch_farside_text()
+    if text is None:
+        return _unavailable(source, "Could not retrieve Farside data (direct fetch and proxy both failed)")
+    flows = _parse_farside_flows(text)
+    if not flows:
+        return _unavailable(source, "Retrieved the page but could not find a parsable daily flow row")
+    latest_date, latest_value = flows[-1]
+    return {"value": f"${latest_value:.1f}M", "trend": f"as of {latest_date}",
+            "source": source, "timestamp": _now()}
 
 
 # ---------------------------------------------------------------------------
-# Yahoo Finance chart API (free, no key) — valid data on DXY US Dollar Index
+# Yahoo Finance (free, no key) — DXY US Dollar Index
 # ---------------------------------------------------------------------------
 
 def get_dxy():
-    """Latest DXY (ICE US Dollar Index, ticker DX-Y.NYB) via Yahoo Finance."""
     source = "Yahoo Finance (https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB)"
     try:
         data = json.loads(_get(
@@ -204,29 +185,17 @@ def get_dxy():
         meta = data["chart"]["result"][0]["meta"]
         price = meta["regularMarketPrice"]
         prev_close = meta.get("chartPreviousClose")
-        trend = None
-        if prev_close:
-            trend = f"{(price / prev_close - 1) * 100:+.2f}% vs prior close"
-        return {
-            "value": price,
-            "trend": trend,
-            "source": source,
-            "timestamp": _now(),
-        }
+        trend = f"{(price / prev_close - 1) * 100:+.2f}% vs prior close" if prev_close else None
+        return {"value": price, "trend": trend, "source": source, "timestamp": _now()}
     except (urllib.error.URLError, KeyError, IndexError, json.JSONDecodeError) as e:
         return _unavailable(source, str(e))
 
 
 # ---------------------------------------------------------------------------
-# Coinglass (API key required) — used to find perpetual funding rates
+# Coinglass (key required) — perpetual funding rates
 # ---------------------------------------------------------------------------
 
 def get_btc_funding_rates(exchange="Binance"):
-    """
-    Current BTC perpetual funding rate from Coinglass. Requires
-    COINGLASS_API_KEY env var. See https://www.coinglass.com/pricing for
-    API access.
-    """
     source = "Coinglass (https://open-api-v4.coinglass.com)"
     api_key = os.environ.get("COINGLASS_API_KEY")
     if not api_key:
@@ -235,9 +204,7 @@ def get_btc_funding_rates(exchange="Binance"):
         url = "https://open-api-v4.coinglass.com/api/futures/funding-rate?symbol=BTC"
         data = json.loads(_get(url, headers={"CG-API-KEY": api_key}))
         rows = data.get("data", [])
-        match = next((r for r in rows if r.get("exchangeName") == exchange), None)
-        if not match and rows:
-            match = rows[0]
+        match = next((r for r in rows if r.get("exchangeName") == exchange), None) or (rows[0] if rows else None)
         if not match:
             return _unavailable(source, "No funding rate rows returned")
         return {
@@ -251,16 +218,10 @@ def get_btc_funding_rates(exchange="Binance"):
 
 
 # ---------------------------------------------------------------------------
-# Glassnode (API key required) — on-chain extras
+# Glassnode (key required) — generic on-chain metric fetcher (optional extras)
 # ---------------------------------------------------------------------------
 
 def get_glassnode_metric(endpoint, asset="BTC", params=None):
-    """
-    Generic Glassnode on-chain metric fetcher. Requires GLASSNODE_API_KEY
-    env var. `endpoint` is the metric path, e.g.
-    "indicators/realized_volatility_30d" or "supply/active_more_1y_percent".
-    See https://docs.glassnode.com/ for available endpoints.
-    """
     source = f"Glassnode ({endpoint})"
     api_key = os.environ.get("GLASSNODE_API_KEY")
     if not api_key:
@@ -269,8 +230,7 @@ def get_glassnode_metric(endpoint, asset="BTC", params=None):
         query = f"a={asset}&api_key={api_key}"
         if params:
             query += "&" + "&".join(f"{k}={v}" for k, v in params.items())
-        url = f"https://api.glassnode.com/v1/metrics/{endpoint}?{query}"
-        data = json.loads(_get(url))
+        data = json.loads(_get(f"https://api.glassnode.com/v1/metrics/{endpoint}?{query}"))
         if not data:
             return _unavailable(source, "Empty response")
         latest = data[-1]
@@ -285,7 +245,7 @@ def get_glassnode_metric(endpoint, asset="BTC", params=None):
 
 
 # ---------------------------------------------------------------------------
-# Deterministic — Used to gather data on the halving cycle position (no API needed)
+# Halving cycle — computed, no internet needed
 # ---------------------------------------------------------------------------
 
 HALVING_DATES = [
@@ -298,11 +258,6 @@ AVG_CYCLE_DAYS = 1458  # ~4 years between halvings, historical average
 
 
 def get_halving_cycle_position():
-    """
-    Months elapsed since the most recent halving, and estimated position
-    (0-1) through the historical ~4-year cycle. Deterministic, computed
-    from known halving dates — no external API required.
-    """
     now = datetime.now(timezone.utc)
     last_halving = max(d for d in HALVING_DATES if d <= now)
     days_elapsed = (now - last_halving).days
@@ -312,17 +267,19 @@ def get_halving_cycle_position():
     return {
         "value": f"{months_elapsed:.1f} months post-halving",
         "trend": f"{cycle_fraction * 100:.0f}% through historical avg cycle length",
-        "source": f"Computed from known halving date {last_halving.date()} "
-                   f"(next estimated ~{next_estimated.date()})",
+        "source": f"Computed from known halving date {last_halving.date()} (next estimated ~{next_estimated.date()})",
         "timestamp": _now(),
     }
 
 
 # ---------------------------------------------------------------------------
-# CLI entry point
+# REGISTRY GLUE — connect the JSON registry to the Python fetchers
 # ---------------------------------------------------------------------------
-
-SIGNAL_FUNCS = {
+# The registry (signals.json) refers to each fetcher by a short name; this dict
+# maps that name to the actual function. Adding a signal that reuses an
+# existing source is a pure JSON edit; a brand-new source means adding one
+# function here plus a JSON entry.
+FETCHERS = {
     "etf_flows": get_bitcoin_etf_flows,
     "dominance": get_bitcoin_dominance,
     "price": get_btc_price_usd,
@@ -332,21 +289,106 @@ SIGNAL_FUNCS = {
     "halving_cycle": get_halving_cycle_position,
 }
 
-DEFAULT_SIGNALS = [
-    "etf_flows", "halving_cycle", "dxy", "dominance", "funding_rate", "volatility_30d",
-]
 
+def load_registry():
+    with open(REGISTRY_PATH, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def resolve_signals(query_text, registry):
+    """
+    Turn a plain-language request into a list of signal names, by matching the
+    user's words against each signal's name and aliases (word-boundary match,
+    case-insensitive). Returns (matched_signal_names, matched_anything).
+    """
+    text_lower = query_text.lower()
+    matched = []
+    for name, meta in registry["signals"].items():
+        # The signal's own name plus all its aliases are candidate phrases.
+        candidates = [name.replace("_", " "), name] + meta.get("aliases", [])
+        for phrase in candidates:
+            if re.search(r"\b" + re.escape(phrase.lower()) + r"\b", text_lower):
+                if name not in matched:
+                    matched.append(name)
+                break
+    return matched, bool(matched)
+
+
+def build_manifest(registry):
+    """A capability list — what this skill can fetch — for --list and for the
+    'unsupported' response so callers can see the options."""
+    return {
+        "schema_version": registry.get("schema_version"),
+        "available_signals": [
+            {
+                "name": name,
+                "label": meta["label"],
+                "requires_key": meta.get("requires_key"),
+                "source": meta.get("source"),
+                "aliases": meta.get("aliases", []),
+            }
+            for name, meta in registry["signals"].items()
+        ],
+        "default_signals": registry.get("default_signals", []),
+    }
+
+
+# ---------------------------------------------------------------------------
+# CLI ENTRY POINT
+# ---------------------------------------------------------------------------
+# Usage:
+#   python fetch_signals.py                         -> default signal set
+#   python fetch_signals.py dxy dominance           -> by exact name
+#   python fetch_signals.py "show me dollar strength and btc market share"
+#                                                   -> by natural phrasing
+#   python fetch_signals.py --list                  -> what this skill supports
 
 def main():
-    requested = sys.argv[1:] or DEFAULT_SIGNALS
-    results = {}
+    registry = load_registry()
+    args = sys.argv[1:]
+
+    # --list / --help: print the capability manifest and exit.
+    if args and args[0] in ("--list", "--help", "-h"):
+        print(json.dumps(build_manifest(registry), indent=2))
+        return
+
+    # No args -> default core set. Otherwise treat all args as one request
+    # phrase and resolve it against the registry's names + aliases.
+    if not args:
+        requested = registry.get("default_signals", list(registry["signals"].keys()))
+    else:
+        requested, matched_anything = resolve_signals(" ".join(args), registry)
+        if not matched_anything:
+            # Nothing recognised -> say so clearly, list what IS supported.
+            print(json.dumps({
+                "schema_version": registry.get("schema_version"),
+                "generated_at": _now(),
+                "status": "unsupported",
+                "query": " ".join(args),
+                "reason": "No known signal matched this request.",
+                "supported": build_manifest(registry)["available_signals"],
+                "suggestion": "Ask for one of the supported signals above, or extend signals.json to add a new source.",
+            }, indent=2, default=str))
+            return
+
+    # Fetch each resolved signal via its registered fetcher.
+    signals = {}
     for name in requested:
-        func = SIGNAL_FUNCS.get(name)
-        if not func:
-            results[name] = {"value": "Unavailable", "reason": f"Unknown signal '{name}'"}
+        meta = registry["signals"].get(name)
+        func = FETCHERS.get(meta["fetcher"]) if meta else None
+        if func is None:
+            signals[name] = {"value": "Unavailable", "reason": f"No fetcher registered for '{name}'"}
             continue
-        results[name] = func()
-    print(json.dumps(results, indent=2, default=str))
+        signals[name] = func()
+
+    # Wrap with metadata: schema version + when this was generated. Consumers
+    # (e.g. Claude reading committed data) can compare generated_at to "now" to
+    # judge staleness.
+    print(json.dumps({
+        "schema_version": registry.get("schema_version"),
+        "generated_at": _now(),
+        "signals": signals,
+    }, indent=2, default=str))
 
 
 if __name__ == "__main__":

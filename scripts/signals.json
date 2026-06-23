@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "default_signals": ["etf_flows", "halving_cycle", "dxy", "dominance", "funding_rate", "volatility_30d"],
+  "signals": {
+    "etf_flows": {
+      "label": "Bitcoin ETF Flows",
+      "fetcher": "etf_flows",
+      "requires_key": null,
+      "source": "Farside Investors (free; via r.jina.ai reader proxy when Cloudflare blocks)",
+      "aliases": ["etf", "etf flow", "etf flows", "etf inflow", "etf inflows", "etf outflow", "etf outflows", "spot etf", "inflows", "outflows"]
+    },
+    "halving_cycle": {
+      "label": "Bitcoin Halving Cycle Position",
+      "fetcher": "halving_cycle",
+      "requires_key": null,
+      "source": "Computed from known halving dates",
+      "aliases": ["halving", "halving cycle", "cycle position", "cycle"]
+    },
+    "dxy": {
+      "label": "DXY (US Dollar Index)",
+      "fetcher": "dxy",
+      "requires_key": null,
+      "source": "Yahoo Finance (free)",
+      "aliases": ["dxy", "dollar index", "us dollar index", "usd index", "dollar strength", "greenback"]
+    },
+    "dominance": {
+      "label": "Bitcoin Dominance",
+      "fetcher": "dominance",
+      "requires_key": null,
+      "source": "CoinGecko (free)",
+      "aliases": ["dominance", "btc dominance", "bitcoin dominance", "market share", "btc.d", "btc dom"]
+    },
+    "funding_rate": {
+      "label": "Bitcoin Perpetual Funding Rates",
+      "fetcher": "funding_rate",
+      "requires_key": "COINGLASS_API_KEY",
+      "source": "Coinglass (requires COINGLASS_API_KEY)",
+      "aliases": ["funding", "funding rate", "funding rates", "perp funding", "perpetual funding"]
+    },
+    "volatility_30d": {
+      "label": "Bitcoin 30-Day Realized Volatility",
+      "fetcher": "volatility_30d",
+      "requires_key": null,
+      "source": "CoinGecko (computed from daily price history)",
+      "aliases": ["volatility", "realized volatility", "realized vol", "30 day volatility", "30-day volatility"]
+    },
+    "price": {
+      "label": "BTC/USD Spot Price",
+      "fetcher": "price",
+      "requires_key": null,
+      "source": "CoinGecko (free)",
+      "aliases": ["price", "btc price", "bitcoin price", "spot price", "usd price"]
+    }
+  }
+}

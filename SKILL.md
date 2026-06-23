@@ -47,17 +47,33 @@ Describe which signals to retrieve in plain language. The more specific the mess
 Use the bundled script to pull real data instead of estimating from memory:
 
 ```
-python scripts/fetch_signals.py [signal_name ...]
+python scripts/fetch_signals.py [signal_name ... | natural-language request]
+python scripts/fetch_signals.py --list        # what the skill can fetch
 ```
 
-With no arguments it returns the default signal set as JSON. Available
-signal names:
+The set of signals, their sources, key requirements, and the plain-language
+**aliases** that map to them all live in `scripts/signals.json` (the
+"registry"). To add or rename a signal that reuses an existing source, edit
+that JSON — no Python change needed.
+
+You can request signals three ways:
+- **No arguments** → the default core set.
+- **By exact name** → `python scripts/fetch_signals.py dxy dominance`.
+- **By natural phrasing** → `python scripts/fetch_signals.py "dollar strength and btc market share"` resolves to `dxy` + `dominance` via the registry aliases.
+
+If nothing in the request matches a known signal, the script returns a
+structured `"status": "unsupported"` result that lists every supported signal
+— surface that to the user instead of guessing.
+
+Output is a JSON object: `{ "schema_version", "generated_at", "signals": {…} }`.
+`generated_at` lets a consumer (e.g. Claude reading committed data) judge
+**staleness** by comparing it to the current time.
 
 | Signal name      | Maps to                                | Source                |
 |------------------|-----------------------------------------|------------------------|
-| `etf_flows`      | Bitcoin ETF Flows                       | Farside Investors (scraped) |
+| `etf_flows`      | Bitcoin ETF Flows                       | Farside Investors (free; via `r.jina.ai` reader proxy when Cloudflare blocks) |
 | `halving_cycle`  | Bitcoin Halving Cycle Position           | Computed from known halving dates |
-| `dxy`            | DXY (US Dollar Index)                   | Stooq (free, no key) |
+| `dxy`            | DXY (US Dollar Index)                   | Yahoo Finance (free, no key) |
 | `dominance`      | Bitcoin Dominance                       | CoinGecko (free, no key) |
 | `funding_rate`   | Bitcoin Perpetual Funding Rates          | Coinglass (requires `COINGLASS_API_KEY`) |
 | `volatility_30d` | Bitcoin 30-Day Realized Volatility       | CoinGecko (computed from daily price history) |
