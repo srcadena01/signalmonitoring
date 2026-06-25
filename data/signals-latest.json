@@ -1,42 +1,42 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-06-23T22:01:48+00:00",
+  "generated_at": "2026-06-25T15:17:02+00:00",
   "signals": {
     "etf_flows": {
-      "value": "$-68.3M",
-      "trend": "as of 22 Jun 2026",
+      "value": "$-469.0M",
+      "trend": "as of 24 Jun 2026",
       "source": "Farside Investors (https://farside.co.uk/btc/, via r.jina.ai when blocked)",
-      "timestamp": "2026-06-23T22:01:47+00:00"
+      "timestamp": "2026-06-25T15:17:01+00:00"
     },
     "halving_cycle": {
-      "value": "26.1 months post-halving",
-      "trend": "54% through historical avg cycle length",
+      "value": "26.2 months post-halving",
+      "trend": "55% through historical avg cycle length",
       "source": "Computed from known halving date 2024-04-20 (next estimated ~2028-04-20)",
-      "timestamp": "2026-06-23T22:01:47+00:00"
+      "timestamp": "2026-06-25T15:17:01+00:00"
     },
     "dxy": {
-      "value": 101.358,
-      "trend": "+1.27% vs prior close",
+      "value": 101.34,
+      "trend": "+0.32% vs prior close",
       "source": "Yahoo Finance (https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB)",
-      "timestamp": "2026-06-23T22:01:48+00:00"
+      "timestamp": "2026-06-25T15:17:01+00:00"
     },
     "dominance": {
-      "value": 56.2,
+      "value": 55.74,
       "trend": null,
       "source": "CoinGecko (https://api.coingecko.com/api/v3/global)",
-      "timestamp": "2026-06-23T22:01:48+00:00"
+      "timestamp": "2026-06-25T15:17:02+00:00"
     },
     "funding_rate": {
       "value": "Unavailable",
       "reason": "COINGLASS_API_KEY not set",
       "source": "Coinglass (https://open-api-v4.coinglass.com)",
-      "timestamp": "2026-06-23T22:01:48+00:00"
+      "timestamp": "2026-06-25T15:17:02+00:00"
     },
     "volatility_30d": {
-      "value": 42.02,
+      "value": 43.15,
       "trend": "30-day window, annualized",
       "source": "CoinGecko (market_chart, 30d)",
-      "timestamp": "2026-06-23T22:01:48+00:00"
+      "timestamp": "2026-06-25T15:17:02+00:00"
     }
   }
 }

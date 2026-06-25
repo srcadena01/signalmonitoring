@@ -37,6 +37,28 @@ Describe which signals to retrieve in plain language. The more specific the mess
 2. Retrieve the latest verifiable data for each signal by running
    `scripts/fetch_signals.py` (see Tooling below) rather than guessing or
    relying on web search alone.
+2a. Always `web_fetch` the pre-fetched signal data as the **primary** source
+   (it is committed hourly by a GitHub Action, and works even where the local
+   script has no network — e.g. the claude.ai sandbox). Use the
+   **`signals-latest.json`** file ONLY — never a dated `signals-YYYY-MM-DD.json`
+   snapshot (those are frozen history). Append a **unique cache-buster** query
+   string each run so neither claude.ai nor GitHub's CDN serves a stale copy:
+
+   ```
+   https://raw.githubusercontent.com/srcadena01/signalmonitoring/main/data/signals-latest.json?nocache=<unique>
+   ```
+
+   Replace `<unique>` with the current date-time or a random value every time.
+   **Verify freshness before using the data:** read the top-level
+   `generated_at` (or, on older files without it, a signal's `timestamp`) and
+   confirm it is recent. If it is more than a few hours old — or still shows a
+   previous day — state that the data is stale and re-fetch with a new
+   cache-buster before relying on it.
+
+   Then **supplement with `web_search`** for the macro narrative, ETF flows,
+   and any signals the JSON marks as `"Unavailable"`. Prefer the committed
+   JSON's values; only fall back to `scripts/fetch_signals.py` when running
+   locally with network access.
 3. For each signal, record the current value, recent trend, and a short interpretation.
 4. Determine the overall market regime.
 5. Generate a short overall summary of what the signals imply for MintLocke rules.
