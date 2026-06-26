@@ -140,9 +140,11 @@ has to be.
   - A status dot in the Read column: 🟢 supportive · 🟡 neutral · 🔴 cautionary.
   - Keep graphics minimal — one glyph, not decoration. Never let a graphic
     replace the actual number.
-  - **Avoid Unicode block/sparkline characters** (`▁▂▃▅▇`, `█████░░░`) — they
-    render inconsistently (misaligned boxes / "tofu") across clients. Stick to
-    arrows and emoji dots for inline cues.
+  - **Do NOT use Unicode block-element or sparkline characters** (the little
+    bar-height glyphs or filled/empty progress blocks). They render
+    inconsistently — misaligned boxes or "tofu" — across clients. Use ONLY the
+    arrows and emoji dots above for inline cues; nothing else drawn from text
+    characters.
 - When a **visual chart** genuinely helps (e.g. a signal's recent history),
   render an actual small chart (an image/SVG), not text-block art. Keep it
   simple, and don't restate it in prose. If a real chart isn't available, just
