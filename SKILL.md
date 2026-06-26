@@ -134,16 +134,19 @@ has to be.
   then use the short form after — e.g. `DXY (US Dollar Index)`, `BTC (Bitcoin)`,
   `ETF (Exchange-Traded Fund)`, `RV (Realized Volatility)`.
 - "Read" = a 1–3 word takeaway (e.g. "accumulating", "mild headwind", "neutral").
-- **Use small, simple graphics** to make the read instant:
+- **Use small, simple graphics** to make the read instant — but only ones that
+  render reliably:
   - Trend arrows in the Trend column: `↑` rising · `↓` falling · `→` flat.
   - A status dot in the Read column: 🟢 supportive · 🟡 neutral · 🔴 cautionary.
-  - Optional tiny Unicode bar/sparkline for a value or recent history, e.g.
-    `▁▂▃▅▇` for a rising series, or `█████░░░ 58%` for dominance.
   - Keep graphics minimal — one glyph, not decoration. Never let a graphic
     replace the actual number.
-- A small **chart is welcome** when richer history is available and it conveys
-  the picture more compactly than words; keep it simple and don't restate it in
-  prose.
+  - **Avoid Unicode block/sparkline characters** (`▁▂▃▅▇`, `█████░░░`) — they
+    render inconsistently (misaligned boxes / "tofu") across clients. Stick to
+    arrows and emoji dots for inline cues.
+- When a **visual chart** genuinely helps (e.g. a signal's recent history),
+  render an actual small chart (an image/SVG), not text-block art. Keep it
+  simple, and don't restate it in prose. If a real chart isn't available, just
+  use the number plus an arrow.
 - **Put sources at the very end, in a smaller font**, on one line using a
   `<sub>…</sub>` tag — list the data sources and the as-of timestamp, not a
   source per signal.
@@ -160,7 +163,7 @@ User: "ETF flows, halving cycle, and dominance."
 > |--------|-------|-------|------|
 > | BTC ETF (Exchange-Traded Fund) Flows | +$187M | ↑ | 🟢 accumulating |
 > | Halving Cycle | 8.5 mo post-halving | → | 🟢 constructive |
-> | BTC Dominance | 58.4% `█████░░░` | ↑ | 🟢 rotation into BTC |
+> | BTC Dominance | 58.4% | ↑ | 🟢 rotation into BTC |
 >
 > **For MintLocke:** Supports maintaining or slightly raising BTC-focused risk.
 >
