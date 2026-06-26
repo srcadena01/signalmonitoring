@@ -1,6 +1,6 @@
 ---
-name: signal-monitoring-agent-skill
-description: Fetches and structures key signals (ETF flows, halving cycle, macro proxies, volatility, etc.)
+name: updated-signal-monitoring-agent-skill
+description: Adaptable version — fetches and structures key signals (ETF flows, halving cycle, macro proxies, volatility, etc.) via a config-driven registry with natural-language routing, a capability manifest, and reliable ETF-flow fetching.
 ---
 
 # Signal Monitoring Agent Skill
@@ -61,8 +61,8 @@ Describe which signals to retrieve in plain language. The more specific the mess
    locally with network access.
 3. For each signal, record the current value, recent trend, and a short interpretation.
 4. Determine the overall market regime.
-5. Generate a short overall summary of what the signals imply for MintLocke rules.
-6. Return results using the exact output format below.
+5. Generate a one-sentence overall summary of what the signals imply for MintLocke rules.
+6. Return results using the minimal output format below — keep text to a minimum.
 
 ## Tooling
 
@@ -115,65 +115,62 @@ that to the user rather than fabricating a value, per the Guardrails below.
 
 ## Output Format
 
+Keep it **minimal** — favor the table over prose. No section is longer than it
+has to be.
+
 ```
-Signal Summary
-[2–4 sentence summary of the overall market picture based on the signals]
+**Summary:** [1 sentence; 2 only if truly needed] · Confidence: High/Medium/Low
 
-Data Confidence
-[High / Medium / Low]
+| Signal | Value | Trend | Read |
+|--------|-------|-------|------|
+| ...    | ...   | ...   | 1–3 words |
 
-Key Signals
-
-Signal Name
-Current Value:
-Trend:
-Interpretation:
-Source:
-Timestamp:
-
-(repeat for each signal)
-
-Implication for MintLocke
-[One or two sentences describing what the signals imply for evaluating rules or adjusting risk settings.]
+**For MintLocke:** [1 sentence]
 ```
+
+- **Expand every ticker/abbreviation in parentheses the first time it appears**,
+  then use the short form after — e.g. `DXY (US Dollar Index)`, `BTC (Bitcoin)`,
+  `ETF (Exchange-Traded Fund)`, `RV (Realized Volatility)`.
+- "Read" = a 1–3 word takeaway (e.g. "accumulating", "mild headwind", "neutral").
+- Put sources/timestamps in one short line under the table, not per-signal.
+- A small **chart/table is welcome** when it conveys the picture more compactly
+  than words (e.g. a recent-values sparkline or a one-row-per-signal table).
+  Don't add prose that just restates the chart.
 
 ## Examples
 
 ### Example 1
 
-User input: "Check the latest Bitcoin ETF flows, Bitcoin halving cycle position, and Bitcoin dominance."
+User: "ETF flows, halving cycle, and dominance."
 
-Output:
-
-Signal Summary: Bitcoin ETF flows remain strongly positive while dominance is rising, indicating continued institutional interest concentrated in Bitcoin.
-
-Key Signals:
-- Bitcoin ETF Flows: +$187M (increasing) — strong institutional accumulation
-- Bitcoin Halving Cycle Position: 8.5 months post-halving — historically constructive period
-- Bitcoin Dominance: 58.4% (rising) — capital rotating into Bitcoin
-
-Implication for MintLocke: Current conditions support maintaining or slightly increasing risk exposure in Bitcoin-focused rules.
+> **Summary:** ETF inflows strong and dominance rising — interest concentrated in BTC (Bitcoin). · Confidence: High
+>
+> | Signal | Value | Trend | Read |
+> |--------|-------|-------|------|
+> | BTC ETF (Exchange-Traded Fund) Flows | +$187M | rising | accumulating |
+> | Halving Cycle | 8.5 mo post-halving | — | constructive |
+> | BTC Dominance | 58.4% | rising | rotation into BTC |
+>
+> Source: Farside, CoinGecko · 2026-06-26
+>
+> **For MintLocke:** Supports maintaining or slightly raising BTC-focused risk.
 
 ### Example 2
 
-User input: "Give me Bitcoin macro signals (DXY, 10-year Treasury yield, Bitcoin funding rates)."
+User: "Macro signals — DXY and funding."
 
-Output:
-
-Signal Summary: Macro conditions are stable with mildly elevated funding rates.
-
-Key Signals:
-- DXY: 98.7 (slightly up) — mild USD strength
-- 10-year Treasury Yield: 4.32% (flat) — neutral rates environment
-- Bitcoin Funding Rates: +0.012% (elevated) — leveraged long interest increasing
-
-Implication for MintLocke: No major macro headwinds, but elevated funding suggests caution on overly aggressive leverage rules.
+> **Summary:** Stable macro, mildly elevated funding. · Confidence: Medium
+>
+> | Signal | Value | Trend | Read |
+> |--------|-------|-------|------|
+> | DXY (US Dollar Index) | 98.7 | slightly up | mild USD strength |
+> | BTC Funding Rate | +0.012% | elevated | longs crowding |
+>
+> **For MintLocke:** Caution on aggressive leverage rules.
 
 ### Example 3
 
-User input: "Pull the main signals we care about for today."
-
-Output: Full core set with summary and implication.
+User: "Pull the main signals for today." → full core set, same minimal format.
 
 ## Guardrails
 
@@ -182,6 +179,10 @@ Output: Full core set with summary and implication.
 - If data is unavailable, state "Unavailable."
 - Keep interpretations neutral and factual.
 - Do not provide trading advice. Only describe what the signals show.
+- **Be succinct.** Minimal text: Summary 1 sentence (2 max), "For MintLocke" 1
+  sentence. Prefer the table; never add prose that just restates it.
+- **Expand each ticker/abbreviation in parentheses on first use** (e.g.
+  `DXY (US Dollar Index)`), then use the short form thereafter.
 - Cite source for every signal.
 
 ## Dependencies
