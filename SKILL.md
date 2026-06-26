@@ -123,19 +123,30 @@ has to be.
 
 | Signal | Value | Trend | Read |
 |--------|-------|-------|------|
-| ...    | ...   | ...   | 1–3 words |
+| ...    | ...   | ↑/↓/→ | 🟢/🟡/🔴 1–3 words |
 
 **For MintLocke:** [1 sentence]
+
+<sub>Sources: … · as of <timestamp></sub>
 ```
 
 - **Expand every ticker/abbreviation in parentheses the first time it appears**,
   then use the short form after — e.g. `DXY (US Dollar Index)`, `BTC (Bitcoin)`,
   `ETF (Exchange-Traded Fund)`, `RV (Realized Volatility)`.
 - "Read" = a 1–3 word takeaway (e.g. "accumulating", "mild headwind", "neutral").
-- Put sources/timestamps in one short line under the table, not per-signal.
-- A small **chart/table is welcome** when it conveys the picture more compactly
-  than words (e.g. a recent-values sparkline or a one-row-per-signal table).
-  Don't add prose that just restates the chart.
+- **Use small, simple graphics** to make the read instant:
+  - Trend arrows in the Trend column: `↑` rising · `↓` falling · `→` flat.
+  - A status dot in the Read column: 🟢 supportive · 🟡 neutral · 🔴 cautionary.
+  - Optional tiny Unicode bar/sparkline for a value or recent history, e.g.
+    `▁▂▃▅▇` for a rising series, or `█████░░░ 58%` for dominance.
+  - Keep graphics minimal — one glyph, not decoration. Never let a graphic
+    replace the actual number.
+- A small **chart is welcome** when richer history is available and it conveys
+  the picture more compactly than words; keep it simple and don't restate it in
+  prose.
+- **Put sources at the very end, in a smaller font**, on one line using a
+  `<sub>…</sub>` tag — list the data sources and the as-of timestamp, not a
+  source per signal.
 
 ## Examples
 
@@ -147,13 +158,13 @@ User: "ETF flows, halving cycle, and dominance."
 >
 > | Signal | Value | Trend | Read |
 > |--------|-------|-------|------|
-> | BTC ETF (Exchange-Traded Fund) Flows | +$187M | rising | accumulating |
-> | Halving Cycle | 8.5 mo post-halving | — | constructive |
-> | BTC Dominance | 58.4% | rising | rotation into BTC |
->
-> Source: Farside, CoinGecko · 2026-06-26
+> | BTC ETF (Exchange-Traded Fund) Flows | +$187M | ↑ | 🟢 accumulating |
+> | Halving Cycle | 8.5 mo post-halving | → | 🟢 constructive |
+> | BTC Dominance | 58.4% `█████░░░` | ↑ | 🟢 rotation into BTC |
 >
 > **For MintLocke:** Supports maintaining or slightly raising BTC-focused risk.
+>
+> <sub>Sources: Farside Investors, CoinGecko · as of 2026-06-26</sub>
 
 ### Example 2
 
@@ -163,10 +174,12 @@ User: "Macro signals — DXY and funding."
 >
 > | Signal | Value | Trend | Read |
 > |--------|-------|-------|------|
-> | DXY (US Dollar Index) | 98.7 | slightly up | mild USD strength |
-> | BTC Funding Rate | +0.012% | elevated | longs crowding |
+> | DXY (US Dollar Index) | 98.7 | ↑ | 🟡 mild USD strength |
+> | BTC Funding Rate | +0.012% | ↑ | 🟡 longs crowding |
 >
 > **For MintLocke:** Caution on aggressive leverage rules.
+>
+> <sub>Sources: Yahoo Finance, Coinglass · as of 2026-06-26</sub>
 
 ### Example 3
 
