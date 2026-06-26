@@ -36,8 +36,8 @@ import urllib.error
 # Distinguishes errors
 import urllib.request
 # Only works when run in the user's own environment if given network access
-from datetime import datetime, timezone
-# Used for timestamps and the halving-cycle calculation
+from datetime import datetime, timezone, timedelta
+# Used for timestamps and the halving-cycle / history-series calculations
 
 USER_AGENT = "Mozilla/5.0 (signal-monitoring-agent-skill)"
 # identification when making an HTTP request
@@ -300,6 +300,109 @@ def get_halving_cycle_position():
 
 
 # ---------------------------------------------------------------------------
+# HISTORY FETCHERS — short recent series, used to draw small trend charts
+# ---------------------------------------------------------------------------
+# Each returns {"label", "series": [{date, value}, ...], "source", "timestamp"}
+# or "Unavailable". Only signals with a free historical source are here;
+# dominance and funding_rate have none (see NO_HISTORY).
+
+def get_btc_price_history(days=14):
+    # Daily BTC/USD closes over the past `days` days
+    source = f"CoinGecko (market_chart, {days}d)"
+    try:
+        data = json.loads(_get(
+            f"https://api.coingecko.com/api/v3/coins/bitcoin/market_chart"
+            f"?vs_currency=usd&days={days}&interval=daily"
+        ))
+        series = [{"date": datetime.fromtimestamp(ts / 1000, tz=timezone.utc).date().isoformat(),
+                   "value": round(p, 2)} for ts, p in data["prices"]]
+        return {"label": "BTC price (USD)", "series": series, "source": source, "timestamp": _now()}
+    except (urllib.error.URLError, KeyError, json.JSONDecodeError) as e:
+        return _unavailable(source, str(e))
+
+
+def get_dxy_history(days=14):
+    # Daily DXY closes — pull ~a month, keep the last `days` sessions
+    source = "Yahoo Finance (DX-Y.NYB)"
+    try:
+        data = json.loads(_get(
+            "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB?range=1mo&interval=1d"
+        ))
+        r = data["chart"]["result"][0]
+        stamps, closes = r["timestamp"], r["indicators"]["quote"][0]["close"]
+        series = [{"date": datetime.fromtimestamp(t, tz=timezone.utc).date().isoformat(),
+                   "value": round(c, 3)} for t, c in zip(stamps, closes) if c is not None][-days:]
+        return {"label": "DXY (US Dollar Index)", "series": series, "source": source, "timestamp": _now()}
+    except (urllib.error.URLError, KeyError, IndexError, json.JSONDecodeError) as e:
+        return _unavailable(source, str(e))
+
+
+def get_btc_realized_volatility_history(days=14, window=30):
+    # Rolling `window`-day realized volatility for each of the last `days` days
+    source = f"CoinGecko (computed {window}d rolling volatility)"
+    try:
+        total = days + window + 1  # need `window` extra days before the first point
+        data = json.loads(_get(
+            f"https://api.coingecko.com/api/v3/coins/bitcoin/market_chart"
+            f"?vs_currency=usd&days={total}&interval=daily"
+        ))
+        pts = data["prices"]
+        prices = [p[1] for p in pts]
+        rets = [None] + [(prices[i] / prices[i - 1] - 1) if prices[i - 1] else None for i in range(1, len(prices))]
+        series = []
+        for i in range(window, len(prices)):
+            w = [r for r in rets[i - window + 1:i + 1] if r is not None]
+            if len(w) < 2:
+                continue
+            vol = statistics.stdev(w) * (365 ** 0.5) * 100
+            series.append({"date": datetime.fromtimestamp(pts[i][0] / 1000, tz=timezone.utc).date().isoformat(),
+                           "value": round(vol, 2)})
+        return {"label": "BTC 30d realized volatility (%)", "series": series[-days:],
+                "source": source, "timestamp": _now()}
+    except (urllib.error.URLError, KeyError, json.JSONDecodeError, statistics.StatisticsError) as e:
+        return _unavailable(source, str(e))
+
+
+def get_etf_flows_history(days=14):
+    # Daily total net ETF flows, reusing the same Farside fetch+parse as above
+    source = "Farside Investors (via r.jina.ai when blocked)"
+    text = _fetch_farside_text()
+    if text is None:
+        return _unavailable(source, "Could not retrieve Farside data")
+    flows = _parse_farside_flows(text)
+    if not flows:
+        return _unavailable(source, "No parsable daily flow rows")
+    series = [{"date": d, "value": v} for d, v in flows][-days:]
+    return {"label": "BTC ETF net flows ($M)", "series": series, "source": source, "timestamp": _now()}
+
+
+def get_halving_cycle_history(days=14):
+    # Months-post-halving for each of the last `days` days (computed, always works)
+    now = datetime.now(timezone.utc)
+    last = max(d for d in HALVING_DATES if d <= now)
+    series = [{"date": (now - timedelta(days=off)).date().isoformat(),
+               "value": round(((now - timedelta(days=off)) - last).days / 30.4368, 2)}
+              for off in range(days - 1, -1, -1)]
+    return {"label": "Months post-halving", "series": series,
+            "source": f"Computed from {last.date()}", "timestamp": _now()}
+
+
+# Maps a signal name to its history fetcher. Signals not here have no free
+# historical source, so they can't be charted — say so rather than faking it.
+HISTORY_FETCHERS = {
+    "price": get_btc_price_history,
+    "dxy": get_dxy_history,
+    "volatility_30d": get_btc_realized_volatility_history,
+    "etf_flows": get_etf_flows_history,
+    "halving_cycle": get_halving_cycle_history,
+}
+NO_HISTORY = {
+    "dominance": "No free historical source for BTC dominance (snapshot only).",
+    "funding_rate": "Funding-rate history needs a paid Coinglass key.",
+}
+
+
+# ---------------------------------------------------------------------------
 # REGISTRY GLUE — connect the JSON registry to the Python fetchers
 # ---------------------------------------------------------------------------
 # signals.json refers to each fetcher by a short name; this maps that name to
@@ -374,6 +477,24 @@ def main():
     # --list / --help -> just print the capability manifest and stop
     if args and args[0] in ("--list", "--help", "-h"):
         print(json.dumps(build_manifest(registry), indent=2))
+        return
+
+    # --history N -> recent dated series for the chartable signals, for drawing
+    # small trend charts. Defaults to 14 days.
+    if args and args[0] == "--history":
+        try:
+            days = int(args[1]) if len(args) > 1 else 14
+        except ValueError:
+            days = 14
+        history = {name: fn(days) for name, fn in HISTORY_FETCHERS.items()}
+        for name, reason in NO_HISTORY.items():
+            history[name] = {"series": None, "reason": reason}  # honest "no chart" note
+        print(json.dumps({
+            "schema_version": registry.get("schema_version"),
+            "generated_at": _now(),
+            "window_days": days,
+            "history": history,
+        }, indent=2, default=str))
         return
 
     # No args -> default core set. Otherwise resolve the phrase against aliases.

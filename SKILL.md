@@ -59,6 +59,12 @@ Describe which signals to retrieve in plain language. The more specific the mess
    and any signals the JSON marks as `"Unavailable"`. Prefer the committed
    JSON's values; only fall back to `scripts/fetch_signals.py` when running
    locally with network access.
+2b. For trend charts, get recent history from
+   `data/signals-history.json` (committed alongside `signals-latest.json` — same
+   raw-URL + cache-buster pattern), or run `scripts/fetch_signals.py --history
+   14` locally. It holds a ~14-day dated series per **chartable** signal
+   (`price`, `dxy`, `volatility_30d`, `etf_flows`, `halving_cycle`).
+   `dominance` and `funding_rate` have no series — never chart them.
 3. For each signal, record the current value, recent trend, and a short interpretation.
 4. Determine the overall market regime.
 5. Generate a one-sentence overall summary of what the signals imply for MintLocke rules.
@@ -145,10 +151,18 @@ has to be.
     inconsistently — misaligned boxes or "tofu" — across clients. Use ONLY the
     arrows and emoji dots above for inline cues; nothing else drawn from text
     characters.
-- When a **visual chart** genuinely helps (e.g. a signal's recent history),
-  render an actual small chart (an image/SVG), not text-block art. Keep it
-  simple, and don't restate it in prose. If a real chart isn't available, just
-  use the number plus an arrow.
+- **Trend charts.** When a signal has recent history (from
+  `signals-history.json` or `--history`, see step 2b) and a picture adds
+  clarity, render **one small, real line chart** (an image/SVG — never
+  text-block art):
+  - One signal per chart, a single line, ~14 daily points.
+  - Title it with the signal + window (e.g. "DXY — last 14 days"); label the
+    y-axis unit; keep axes minimal and uncluttered.
+  - Keep it small and clean — it should read at a glance, not dominate.
+  - Only chart what helps (usually price, DXY, volatility, or ETF flows).
+    Don't chart `dominance`/`funding_rate` (no history), and don't draw a chart
+    just to have one. Never restate the chart in prose.
+  - If no history is available, just use the number plus a trend arrow.
 - **Put sources at the very end, in a smaller font**, on one line using a
   `<sub>…</sub>` tag — list the data sources and the as-of timestamp, not a
   source per signal.

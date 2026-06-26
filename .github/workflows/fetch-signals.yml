@@ -47,6 +47,9 @@ jobs:
           python scripts/fetch_signals.py > data/signals-latest.json
           # Also keep a dated snapshot so you build up a history over time.
           cp data/signals-latest.json "data/signals-$(date -u +%Y-%m-%d).json"
+          # And a 14-day series for the chartable signals, so consumers can
+          # draw small trend charts from one file.
+          python scripts/fetch_signals.py --history 14 > data/signals-history.json
 
       # 4. Commit and push, but only if the data actually changed.
       - name: Commit updated data
