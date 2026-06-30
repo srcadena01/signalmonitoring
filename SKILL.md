@@ -1,6 +1,6 @@
 ---
-name: updated-signal-monitoring-agent-skill
-description: Adaptable version — fetches and structures key signals (ETF flows, halving cycle, macro proxies, volatility, etc.) via a config-driven registry with natural-language routing, a capability manifest, and reliable ETF-flow fetching.
+name: signal-monitoring-agent-skill
+description: Fetches and structures key Bitcoin/macro signals (ETF flows, halving cycle, DXY, dominance, funding rates, volatility) via a config-driven registry with natural-language routing and reliable ETF-flow fetching.
 ---
 
 # Signal Monitoring Agent Skill
