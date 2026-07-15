@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-07-15T12:54:02+00:00",
+  "generated_at": "2026-07-15T16:59:11+00:00",
   "window_days": 14,
   "history": {
     "price": {
@@ -64,19 +64,15 @@
         },
         {
           "date": "2026-07-15",
-          "value": 65032.65
+          "value": 65006.28
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-07-15T12:54:01+00:00"
+      "timestamp": "2026-07-15T16:59:10+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
       "series": [
-        {
-          "date": "2026-06-24",
-          "value": 101.61
-        },
         {
           "date": "2026-06-25",
           "value": 101.43
@@ -126,12 +122,16 @@
           "value": 101.28
         },
         {
+          "date": "2026-07-14",
+          "value": 100.94
+        },
+        {
           "date": "2026-07-15",
-          "value": 100.885
+          "value": 100.692
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-07-15T12:54:01+00:00"
+      "timestamp": "2026-07-15T16:59:10+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
@@ -190,11 +190,11 @@
         },
         {
           "date": "2026-07-15",
-          "value": 33.84
+          "value": 33.83
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-07-15T12:54:01+00:00"
+      "timestamp": "2026-07-15T16:59:10+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -249,7 +249,7 @@
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-07-15T12:54:02+00:00"
+      "timestamp": "2026-07-15T16:59:11+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
@@ -312,7 +312,7 @@
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-07-15T12:54:02+00:00"
+      "timestamp": "2026-07-15T16:59:11+00:00"
     },
     "dominance": {
       "series": null,
