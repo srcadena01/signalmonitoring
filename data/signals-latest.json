@@ -1,42 +1,42 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-07-17T12:01:21+00:00",
+  "generated_at": "2026-07-17T16:46:53+00:00",
   "signals": {
     "etf_flows": {
       "value": "$79.1M",
       "trend": "as of 16 Jul 2026",
       "source": "Farside Investors (https://farside.co.uk/btc/, via r.jina.ai when blocked)",
-      "timestamp": "2026-07-17T12:01:20+00:00"
+      "timestamp": "2026-07-17T16:46:53+00:00"
     },
     "halving_cycle": {
       "value": "26.9 months post-halving",
       "trend": "56% through historical avg cycle length",
       "source": "Computed from known halving date 2024-04-20 (next estimated ~2028-04-20)",
-      "timestamp": "2026-07-17T12:01:20+00:00"
+      "timestamp": "2026-07-17T16:46:53+00:00"
     },
     "dxy": {
-      "value": 100.8,
-      "trend": "-0.47% vs prior close",
+      "value": 100.743,
+      "trend": "-0.53% vs prior close",
       "source": "Yahoo Finance (https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB)",
-      "timestamp": "2026-07-17T12:01:20+00:00"
+      "timestamp": "2026-07-17T16:46:53+00:00"
     },
     "dominance": {
-      "value": 56.21,
+      "value": 56.26,
       "trend": null,
       "source": "CoinGecko (https://api.coingecko.com/api/v3/global)",
-      "timestamp": "2026-07-17T12:01:21+00:00"
+      "timestamp": "2026-07-17T16:46:53+00:00"
     },
     "funding_rate": {
       "value": "Unavailable",
       "reason": "COINGLASS_API_KEY not set",
       "source": "Coinglass (https://open-api-v4.coinglass.com)",
-      "timestamp": "2026-07-17T12:01:21+00:00"
+      "timestamp": "2026-07-17T16:46:53+00:00"
     },
     "volatility_30d": {
-      "value": 33.55,
+      "value": 33.47,
       "trend": "30-day window, annualized",
       "source": "CoinGecko (market_chart, 30d)",
-      "timestamp": "2026-07-17T12:01:21+00:00"
+      "timestamp": "2026-07-17T16:46:53+00:00"
     }
   }
 }
