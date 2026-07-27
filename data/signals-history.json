@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-07-27T22:50:19+00:00",
+  "generated_at": "2026-07-27T23:53:55+00:00",
   "window_days": 14,
   "history": {
     "price": {
@@ -60,19 +60,15 @@
         },
         {
           "date": "2026-07-27",
-          "value": 64067.8
+          "value": 63690.76
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-07-27T22:50:18+00:00"
+      "timestamp": "2026-07-27T23:53:54+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
       "series": [
-        {
-          "date": "2026-07-07",
-          "value": 101.14
-        },
         {
           "date": "2026-07-08",
           "value": 101.05
@@ -122,12 +118,16 @@
           "value": 101.43
         },
         {
+          "date": "2026-07-24",
+          "value": 101.47
+        },
+        {
           "date": "2026-07-27",
           "value": 101.514
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-07-27T22:50:18+00:00"
+      "timestamp": "2026-07-27T23:53:54+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
@@ -186,11 +186,11 @@
         },
         {
           "date": "2026-07-27",
-          "value": 29.96
+          "value": 30.18
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-07-27T22:50:18+00:00"
+      "timestamp": "2026-07-27T23:53:54+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -253,7 +253,7 @@
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-07-27T22:50:19+00:00"
+      "timestamp": "2026-07-27T23:53:55+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
@@ -316,7 +316,7 @@
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-07-27T22:50:19+00:00"
+      "timestamp": "2026-07-27T23:53:55+00:00"
     },
     "dominance": {
       "series": null,
