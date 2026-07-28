@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-07-28T01:27:30+00:00",
+  "generated_at": "2026-07-28T04:53:22+00:00",
   "window_days": 14,
   "history": {
     "price": {
@@ -8,67 +8,67 @@
       "series": [
         {
           "date": "2026-07-15",
-          "value": 64977.36
+          "value": 64983.52
         },
         {
           "date": "2026-07-16",
-          "value": 64722.06
+          "value": 64717.17
         },
         {
           "date": "2026-07-17",
-          "value": 63788.93
+          "value": 63792.29
         },
         {
           "date": "2026-07-18",
-          "value": 63925.51
+          "value": 63904.95
         },
         {
           "date": "2026-07-19",
-          "value": 64793.26
+          "value": 64795.7
         },
         {
           "date": "2026-07-20",
-          "value": 64679.77
+          "value": 64670.4
         },
         {
           "date": "2026-07-21",
-          "value": 65199.44
+          "value": 65184.92
         },
         {
           "date": "2026-07-22",
-          "value": 66506.89
+          "value": 66520.98
         },
         {
           "date": "2026-07-23",
-          "value": 66083.46
+          "value": 66077.06
         },
         {
           "date": "2026-07-24",
-          "value": 65043.65
+          "value": 65033.02
         },
         {
           "date": "2026-07-25",
-          "value": 64093.2
+          "value": 64099.0
         },
         {
           "date": "2026-07-26",
-          "value": 64309.44
+          "value": 64316.36
         },
         {
           "date": "2026-07-27",
-          "value": 65329.54
+          "value": 65310.39
         },
         {
           "date": "2026-07-28",
-          "value": 63711.96
+          "value": 63701.35
         },
         {
           "date": "2026-07-28",
-          "value": 63183.83
+          "value": 63231.33
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-07-28T01:27:29+00:00"
+      "timestamp": "2026-07-28T04:53:21+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
@@ -122,79 +122,79 @@
           "value": 101.43
         },
         {
-          "date": "2026-07-24",
-          "value": 101.47
+          "date": "2026-07-27",
+          "value": 101.51
         },
         {
           "date": "2026-07-28",
-          "value": 101.484
+          "value": 101.513
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-07-28T01:27:29+00:00"
+      "timestamp": "2026-07-28T04:53:21+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
       "series": [
         {
           "date": "2026-07-16",
-          "value": 33.85
+          "value": 33.69
         },
         {
           "date": "2026-07-17",
-          "value": 34.02
+          "value": 33.87
         },
         {
           "date": "2026-07-18",
-          "value": 33.46
+          "value": 33.3
         },
         {
           "date": "2026-07-19",
-          "value": 32.68
+          "value": 32.5
         },
         {
           "date": "2026-07-20",
-          "value": 32.54
+          "value": 32.38
         },
         {
           "date": "2026-07-21",
-          "value": 32.42
+          "value": 32.23
         },
         {
           "date": "2026-07-22",
-          "value": 32.55
+          "value": 32.41
         },
         {
           "date": "2026-07-23",
-          "value": 32.48
+          "value": 32.37
         },
         {
           "date": "2026-07-24",
-          "value": 32.13
+          "value": 32.06
         },
         {
           "date": "2026-07-25",
-          "value": 30.93
+          "value": 30.97
         },
         {
           "date": "2026-07-26",
-          "value": 29.94
+          "value": 29.89
         },
         {
           "date": "2026-07-27",
-          "value": 30.29
+          "value": 30.22
         },
         {
           "date": "2026-07-28",
-          "value": 31.79
+          "value": 31.69
         },
         {
           "date": "2026-07-28",
-          "value": 31.88
+          "value": 31.68
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-07-28T01:27:29+00:00"
+      "timestamp": "2026-07-28T04:53:21+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -249,11 +249,11 @@
         },
         {
           "date": "27 Jul 2026",
-          "value": -2.8
+          "value": -11.6
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-07-28T01:27:30+00:00"
+      "timestamp": "2026-07-28T04:53:22+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
@@ -316,7 +316,7 @@
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-07-28T01:27:30+00:00"
+      "timestamp": "2026-07-28T04:53:22+00:00"
     },
     "dominance": {
       "series": null,
