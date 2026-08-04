@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-08-03T22:55:53+00:00",
+  "generated_at": "2026-08-04T00:00:20+00:00",
   "window_days": 14,
   "history": {
     "price": {
@@ -60,11 +60,11 @@
         },
         {
           "date": "2026-08-03",
-          "value": 63559.98
+          "value": 63461.78
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-08-03T22:55:52+00:00"
+      "timestamp": "2026-08-04T00:00:19+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
@@ -123,11 +123,11 @@
         },
         {
           "date": "2026-08-03",
-          "value": 99.991
+          "value": 100.013
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-08-03T22:55:52+00:00"
+      "timestamp": "2026-08-04T00:00:19+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
@@ -186,11 +186,11 @@
         },
         {
           "date": "2026-08-03",
-          "value": 29.51
+          "value": 29.44
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-08-03T22:55:52+00:00"
+      "timestamp": "2026-08-04T00:00:19+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -246,18 +246,18 @@
         {
           "date": "31 Jul 2026",
           "value": -265.4
+        },
+        {
+          "date": "03 Aug 2026",
+          "value": 2.1
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-08-03T22:55:53+00:00"
+      "timestamp": "2026-08-04T00:00:20+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
       "series": [
-        {
-          "date": "2026-07-21",
-          "value": 27.01
-        },
         {
           "date": "2026-07-22",
           "value": 27.04
@@ -309,10 +309,14 @@
         {
           "date": "2026-08-03",
           "value": 27.43
+        },
+        {
+          "date": "2026-08-04",
+          "value": 27.47
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-08-03T22:55:53+00:00"
+      "timestamp": "2026-08-04T00:00:20+00:00"
     },
     "dominance": {
       "series": null,
