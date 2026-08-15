@@ -1,15 +1,11 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-08-14T23:11:20+00:00",
+  "generated_at": "2026-08-15T00:35:52+00:00",
   "window_days": 14,
   "history": {
     "price": {
       "label": "BTC price (USD)",
       "series": [
-        {
-          "date": "2026-08-01",
-          "value": 62896.51
-        },
         {
           "date": "2026-08-02",
           "value": 62802.63
@@ -60,15 +56,19 @@
         },
         {
           "date": "2026-08-14",
-          "value": 63429.18
+          "value": 63417.39
         },
         {
-          "date": "2026-08-14",
-          "value": 62837.81
+          "date": "2026-08-15",
+          "value": 62984.29
+        },
+        {
+          "date": "2026-08-15",
+          "value": 62963.73
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-08-14T23:11:18+00:00"
+      "timestamp": "2026-08-15T00:35:51+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
@@ -131,15 +131,11 @@
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-08-14T23:11:18+00:00"
+      "timestamp": "2026-08-15T00:35:51+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
       "series": [
-        {
-          "date": "2026-08-02",
-          "value": 29.82
-        },
         {
           "date": "2026-08-03",
           "value": 29.45
@@ -189,12 +185,16 @@
           "value": 22.22
         },
         {
-          "date": "2026-08-14",
-          "value": 22.39
+          "date": "2026-08-15",
+          "value": 22.29
+        },
+        {
+          "date": "2026-08-15",
+          "value": 21.75
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-08-14T23:11:18+00:00"
+      "timestamp": "2026-08-15T00:35:51+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -257,15 +257,11 @@
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-08-14T23:11:20+00:00"
+      "timestamp": "2026-08-15T00:35:52+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
       "series": [
-        {
-          "date": "2026-08-01",
-          "value": 27.37
-        },
         {
           "date": "2026-08-02",
           "value": 27.4
@@ -317,10 +313,14 @@
         {
           "date": "2026-08-14",
           "value": 27.8
+        },
+        {
+          "date": "2026-08-15",
+          "value": 27.83
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-08-14T23:11:20+00:00"
+      "timestamp": "2026-08-15T00:35:52+00:00"
     },
     "dominance": {
       "series": null,
