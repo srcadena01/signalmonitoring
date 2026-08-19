@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-08-19T02:11:17+00:00",
+  "generated_at": "2026-08-19T03:36:51+00:00",
   "window_days": 14,
   "history": {
     "price": {
@@ -64,22 +64,18 @@
         },
         {
           "date": "2026-08-19",
-          "value": 64319.31
+          "value": 64302.67
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-08-19T02:11:16+00:00"
+      "timestamp": "2026-08-19T03:36:50+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
       "series": [
         {
-          "date": "2026-07-29",
-          "value": 100.8
-        },
-        {
-          "date": "2026-07-30",
-          "value": 100.01
+          "date": "2026-07-31",
+          "value": 99.8
         },
         {
           "date": "2026-08-03",
@@ -126,12 +122,16 @@
           "value": 99.64
         },
         {
+          "date": "2026-08-18",
+          "value": 99.65
+        },
+        {
           "date": "2026-08-19",
-          "value": 99.632
+          "value": 99.564
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-08-19T02:11:16+00:00"
+      "timestamp": "2026-08-19T03:36:50+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
@@ -190,11 +190,11 @@
         },
         {
           "date": "2026-08-19",
-          "value": 22.98
+          "value": 22.99
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-08-19T02:11:16+00:00"
+      "timestamp": "2026-08-19T03:36:50+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -253,7 +253,7 @@
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-08-19T02:11:17+00:00"
+      "timestamp": "2026-08-19T03:36:51+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
@@ -316,7 +316,7 @@
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-08-19T02:11:17+00:00"
+      "timestamp": "2026-08-19T03:36:51+00:00"
     },
     "dominance": {
       "series": null,
