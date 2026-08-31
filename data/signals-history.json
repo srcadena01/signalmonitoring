@@ -1,15 +1,11 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-08-30T22:59:42+00:00",
+  "generated_at": "2026-08-31T01:08:41+00:00",
   "window_days": 14,
   "history": {
     "price": {
       "label": "BTC price (USD)",
       "series": [
-        {
-          "date": "2026-08-17",
-          "value": 62843.7
-        },
         {
           "date": "2026-08-18",
           "value": 64491.35
@@ -63,12 +59,16 @@
           "value": 78225.14
         },
         {
-          "date": "2026-08-30",
-          "value": 78469.24
+          "date": "2026-08-31",
+          "value": 77658.23
+        },
+        {
+          "date": "2026-08-31",
+          "value": 77723.52
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-08-30T22:59:41+00:00"
+      "timestamp": "2026-08-31T01:08:39+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
@@ -126,20 +126,16 @@
           "value": 99.7
         },
         {
-          "date": "2026-08-30",
-          "value": 99.671
+          "date": "2026-08-31",
+          "value": 99.61
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-08-30T22:59:41+00:00"
+      "timestamp": "2026-08-31T01:08:39+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
       "series": [
-        {
-          "date": "2026-08-18",
-          "value": 23.43
-        },
         {
           "date": "2026-08-19",
           "value": 23.44
@@ -189,20 +185,20 @@
           "value": 45.01
         },
         {
-          "date": "2026-08-30",
-          "value": 43.09
+          "date": "2026-08-31",
+          "value": 43.38
+        },
+        {
+          "date": "2026-08-31",
+          "value": 43.35
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-08-30T22:59:41+00:00"
+      "timestamp": "2026-08-31T01:08:39+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
       "series": [
-        {
-          "date": "11 Aug 2026",
-          "value": 7.8
-        },
         {
           "date": "12 Aug 2026",
           "value": -61.1
@@ -257,15 +253,11 @@
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-08-30T22:59:42+00:00"
+      "timestamp": "2026-08-31T01:08:41+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
       "series": [
-        {
-          "date": "2026-08-17",
-          "value": 27.89
-        },
         {
           "date": "2026-08-18",
           "value": 27.93
@@ -317,10 +309,14 @@
         {
           "date": "2026-08-30",
           "value": 28.32
+        },
+        {
+          "date": "2026-08-31",
+          "value": 28.35
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-08-30T22:59:42+00:00"
+      "timestamp": "2026-08-31T01:08:41+00:00"
     },
     "dominance": {
       "series": null,
