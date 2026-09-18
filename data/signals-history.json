@@ -1,74 +1,13 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-09-18T16:47:05+00:00",
+  "generated_at": "2026-09-18T19:16:52+00:00",
   "window_days": 14,
   "history": {
     "price": {
-      "label": "BTC price (USD)",
-      "series": [
-        {
-          "date": "2026-09-05",
-          "value": 79671.26
-        },
-        {
-          "date": "2026-09-06",
-          "value": 79821.7
-        },
-        {
-          "date": "2026-09-07",
-          "value": 80329.35
-        },
-        {
-          "date": "2026-09-08",
-          "value": 79093.46
-        },
-        {
-          "date": "2026-09-09",
-          "value": 78450.75
-        },
-        {
-          "date": "2026-09-10",
-          "value": 78283.06
-        },
-        {
-          "date": "2026-09-11",
-          "value": 76554.99
-        },
-        {
-          "date": "2026-09-12",
-          "value": 77203.53
-        },
-        {
-          "date": "2026-09-13",
-          "value": 77261.63
-        },
-        {
-          "date": "2026-09-14",
-          "value": 76819.04
-        },
-        {
-          "date": "2026-09-15",
-          "value": 78173.35
-        },
-        {
-          "date": "2026-09-16",
-          "value": 75590.24
-        },
-        {
-          "date": "2026-09-17",
-          "value": 76146.81
-        },
-        {
-          "date": "2026-09-18",
-          "value": 76371.36
-        },
-        {
-          "date": "2026-09-18",
-          "value": 80950.83
-        }
-      ],
+      "value": "Unavailable",
+      "reason": "HTTP Error 429: Too Many Requests",
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-09-18T16:47:04+00:00"
+      "timestamp": "2026-09-18T19:16:51+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
@@ -127,74 +66,17 @@
         },
         {
           "date": "2026-09-18",
-          "value": 100.305
+          "value": 100.216
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-09-18T16:47:04+00:00"
+      "timestamp": "2026-09-18T19:16:51+00:00"
     },
     "volatility_30d": {
-      "label": "BTC 30d realized volatility (%)",
-      "series": [
-        {
-          "date": "2026-09-06",
-          "value": 47.47
-        },
-        {
-          "date": "2026-09-07",
-          "value": 47.46
-        },
-        {
-          "date": "2026-09-08",
-          "value": 48.07
-        },
-        {
-          "date": "2026-09-09",
-          "value": 48.29
-        },
-        {
-          "date": "2026-09-10",
-          "value": 47.8
-        },
-        {
-          "date": "2026-09-11",
-          "value": 48.67
-        },
-        {
-          "date": "2026-09-12",
-          "value": 48.58
-        },
-        {
-          "date": "2026-09-13",
-          "value": 48.57
-        },
-        {
-          "date": "2026-09-14",
-          "value": 48.53
-        },
-        {
-          "date": "2026-09-15",
-          "value": 48.61
-        },
-        {
-          "date": "2026-09-16",
-          "value": 50.52
-        },
-        {
-          "date": "2026-09-17",
-          "value": 50.02
-        },
-        {
-          "date": "2026-09-18",
-          "value": 50.02
-        },
-        {
-          "date": "2026-09-18",
-          "value": 48.3
-        }
-      ],
+      "value": "Unavailable",
+      "reason": "HTTP Error 429: Too Many Requests",
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-09-18T16:47:04+00:00"
+      "timestamp": "2026-09-18T19:16:51+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -253,7 +135,7 @@
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-09-18T16:47:05+00:00"
+      "timestamp": "2026-09-18T19:16:52+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
@@ -316,7 +198,7 @@
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-09-18T16:47:05+00:00"
+      "timestamp": "2026-09-18T19:16:52+00:00"
     },
     "dominance": {
       "series": null,
