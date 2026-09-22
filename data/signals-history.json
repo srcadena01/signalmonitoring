@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-09-22T19:21:20+00:00",
+  "generated_at": "2026-09-22T22:29:30+00:00",
   "window_days": 14,
   "history": {
     "price": {
@@ -64,11 +64,11 @@
         },
         {
           "date": "2026-09-22",
-          "value": 86539.25
+          "value": 86176.27
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-09-22T19:21:19+00:00"
+      "timestamp": "2026-09-22T22:29:29+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
@@ -127,11 +127,11 @@
         },
         {
           "date": "2026-09-22",
-          "value": 100.597
+          "value": 100.541
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-09-22T19:21:19+00:00"
+      "timestamp": "2026-09-22T22:29:29+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
@@ -190,11 +190,11 @@
         },
         {
           "date": "2026-09-22",
-          "value": 43.3
+          "value": 43.38
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-09-22T19:21:19+00:00"
+      "timestamp": "2026-09-22T22:29:29+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -246,10 +246,14 @@
         {
           "date": "21 Sep 2026",
           "value": 999.0
+        },
+        {
+          "date": "22 Sep 2026",
+          "value": 99.0
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-09-22T19:21:20+00:00"
+      "timestamp": "2026-09-22T22:29:30+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
@@ -312,7 +316,7 @@
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-09-22T19:21:20+00:00"
+      "timestamp": "2026-09-22T22:29:30+00:00"
     },
     "dominance": {
       "series": null,
