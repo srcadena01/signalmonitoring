@@ -1,15 +1,11 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-10-03T22:32:28+00:00",
+  "generated_at": "2026-10-04T02:13:52+00:00",
   "window_days": 14,
   "history": {
     "price": {
       "label": "BTC price (USD)",
       "series": [
-        {
-          "date": "2026-09-20",
-          "value": 81236.41
-        },
         {
           "date": "2026-09-21",
           "value": 81169.04
@@ -63,12 +59,16 @@
           "value": 84506.47
         },
         {
-          "date": "2026-10-03",
-          "value": 84769.18
+          "date": "2026-10-04",
+          "value": 84742.79
+        },
+        {
+          "date": "2026-10-04",
+          "value": 84816.98
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-10-03T22:32:27+00:00"
+      "timestamp": "2026-10-04T02:13:51+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
@@ -131,15 +131,11 @@
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-10-03T22:32:27+00:00"
+      "timestamp": "2026-10-04T02:13:51+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
       "series": [
-        {
-          "date": "2026-09-21",
-          "value": 37.42
-        },
         {
           "date": "2026-09-22",
           "value": 43.3
@@ -189,12 +185,16 @@
           "value": 41.91
         },
         {
-          "date": "2026-10-03",
+          "date": "2026-10-04",
           "value": 38.15
+        },
+        {
+          "date": "2026-10-04",
+          "value": 37.38
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-10-03T22:32:27+00:00"
+      "timestamp": "2026-10-04T02:13:51+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -257,15 +257,11 @@
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-10-03T22:32:28+00:00"
+      "timestamp": "2026-10-04T02:13:52+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
       "series": [
-        {
-          "date": "2026-09-20",
-          "value": 29.01
-        },
         {
           "date": "2026-09-21",
           "value": 29.04
@@ -317,10 +313,14 @@
         {
           "date": "2026-10-03",
           "value": 29.44
+        },
+        {
+          "date": "2026-10-04",
+          "value": 29.47
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-10-03T22:32:28+00:00"
+      "timestamp": "2026-10-04T02:13:52+00:00"
     },
     "dominance": {
       "series": null,
