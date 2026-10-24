@@ -1,15 +1,11 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-10-23T23:38:15+00:00",
+  "generated_at": "2026-10-24T02:23:31+00:00",
   "window_days": 14,
   "history": {
     "price": {
       "label": "BTC price (USD)",
       "series": [
-        {
-          "date": "2026-10-10",
-          "value": 82564.29
-        },
         {
           "date": "2026-10-11",
           "value": 82917.9
@@ -63,12 +59,16 @@
           "value": 81328.21
         },
         {
-          "date": "2026-10-23",
-          "value": 80863.86
+          "date": "2026-10-24",
+          "value": 81102.31
+        },
+        {
+          "date": "2026-10-24",
+          "value": 80806.88
         }
       ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-10-23T23:38:13+00:00"
+      "timestamp": "2026-10-24T02:23:29+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
@@ -131,15 +131,11 @@
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-10-23T23:38:14+00:00"
+      "timestamp": "2026-10-24T02:23:29+00:00"
     },
     "volatility_30d": {
       "label": "BTC 30d realized volatility (%)",
       "series": [
-        {
-          "date": "2026-10-11",
-          "value": 38.65
-        },
         {
           "date": "2026-10-12",
           "value": 38.67
@@ -189,12 +185,16 @@
           "value": 25.69
         },
         {
-          "date": "2026-10-23",
-          "value": 24.8
+          "date": "2026-10-24",
+          "value": 24.75
+        },
+        {
+          "date": "2026-10-24",
+          "value": 24.76
         }
       ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-10-23T23:38:14+00:00"
+      "timestamp": "2026-10-24T02:23:29+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
@@ -253,19 +253,15 @@
         },
         {
           "date": "23 Oct 2026",
-          "value": 4.2
+          "value": -27.6
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-10-23T23:38:15+00:00"
+      "timestamp": "2026-10-24T02:23:31+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
       "series": [
-        {
-          "date": "2026-10-10",
-          "value": 29.67
-        },
         {
           "date": "2026-10-11",
           "value": 29.7
@@ -317,10 +313,14 @@
         {
           "date": "2026-10-23",
           "value": 30.1
+        },
+        {
+          "date": "2026-10-24",
+          "value": 30.13
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-10-23T23:38:15+00:00"
+      "timestamp": "2026-10-24T02:23:31+00:00"
     },
     "dominance": {
       "series": null,
