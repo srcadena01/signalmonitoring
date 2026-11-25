@@ -1,21 +1,78 @@
 {
   "schema_version": "1.1",
-  "generated_at": "2026-11-24T21:40:52+00:00",
+  "generated_at": "2026-11-25T04:40:12+00:00",
   "window_days": 14,
   "history": {
     "price": {
-      "value": "Unavailable",
-      "reason": "HTTP Error 429: Too Many Requests",
+      "label": "BTC price (USD)",
+      "series": [
+        {
+          "date": "2026-11-12",
+          "value": 73974.39
+        },
+        {
+          "date": "2026-11-13",
+          "value": 71371.98
+        },
+        {
+          "date": "2026-11-14",
+          "value": 68313.71
+        },
+        {
+          "date": "2026-11-15",
+          "value": 64120.24
+        },
+        {
+          "date": "2026-11-16",
+          "value": 65305.28
+        },
+        {
+          "date": "2026-11-17",
+          "value": 64840.87
+        },
+        {
+          "date": "2026-11-18",
+          "value": 64889.41
+        },
+        {
+          "date": "2026-11-19",
+          "value": 62996.68
+        },
+        {
+          "date": "2026-11-20",
+          "value": 61921.36
+        },
+        {
+          "date": "2026-11-21",
+          "value": 58817.93
+        },
+        {
+          "date": "2026-11-22",
+          "value": 60121.3
+        },
+        {
+          "date": "2026-11-23",
+          "value": 61172.02
+        },
+        {
+          "date": "2026-11-24",
+          "value": 61227.55
+        },
+        {
+          "date": "2026-11-25",
+          "value": 59758.92
+        },
+        {
+          "date": "2026-11-25",
+          "value": 59090.9
+        }
+      ],
       "source": "CoinGecko (market_chart, 14d)",
-      "timestamp": "2026-11-24T21:40:50+00:00"
+      "timestamp": "2026-11-25T04:40:10+00:00"
     },
     "dxy": {
       "label": "DXY (US Dollar Index)",
       "series": [
-        {
-          "date": "2026-11-05",
-          "value": 101.55
-        },
         {
           "date": "2026-11-06",
           "value": 102.3
@@ -66,25 +123,82 @@
         },
         {
           "date": "2026-11-24",
-          "value": 103.828
+          "value": 103.81
+        },
+        {
+          "date": "2026-11-25",
+          "value": 103.975
         }
       ],
       "source": "Yahoo Finance (DX-Y.NYB)",
-      "timestamp": "2026-11-24T21:40:50+00:00"
+      "timestamp": "2026-11-25T04:40:10+00:00"
     },
     "volatility_30d": {
-      "value": "Unavailable",
-      "reason": "HTTP Error 429: Too Many Requests",
+      "label": "BTC 30d realized volatility (%)",
+      "series": [
+        {
+          "date": "2026-11-13",
+          "value": 36.19
+        },
+        {
+          "date": "2026-11-14",
+          "value": 38.29
+        },
+        {
+          "date": "2026-11-15",
+          "value": 42.63
+        },
+        {
+          "date": "2026-11-16",
+          "value": 43.62
+        },
+        {
+          "date": "2026-11-17",
+          "value": 43.57
+        },
+        {
+          "date": "2026-11-18",
+          "value": 43.34
+        },
+        {
+          "date": "2026-11-19",
+          "value": 43.94
+        },
+        {
+          "date": "2026-11-20",
+          "value": 43.33
+        },
+        {
+          "date": "2026-11-21",
+          "value": 44.74
+        },
+        {
+          "date": "2026-11-22",
+          "value": 45.56
+        },
+        {
+          "date": "2026-11-23",
+          "value": 46.48
+        },
+        {
+          "date": "2026-11-24",
+          "value": 46.58
+        },
+        {
+          "date": "2026-11-25",
+          "value": 46.87
+        },
+        {
+          "date": "2026-11-25",
+          "value": 46.76
+        }
+      ],
       "source": "CoinGecko (computed 30d rolling volatility)",
-      "timestamp": "2026-11-24T21:40:50+00:00"
+      "timestamp": "2026-11-25T04:40:10+00:00"
     },
     "etf_flows": {
       "label": "BTC ETF net flows ($M)",
       "series": [
-        {
-          "date": "05 Nov 2026",
-          "value": -430.2
-        },
         {
           "date": "06 Nov 2026",
           "value": -411.9
@@ -132,18 +246,18 @@
         {
           "date": "23 Nov 2026",
           "value": -569.7
+        },
+        {
+          "date": "24 Nov 2026",
+          "value": -56.1
         }
       ],
       "source": "Farside Investors (via r.jina.ai when blocked)",
-      "timestamp": "2026-11-24T21:40:52+00:00"
+      "timestamp": "2026-11-25T04:40:12+00:00"
     },
     "halving_cycle": {
       "label": "Months post-halving",
       "series": [
-        {
-          "date": "2026-11-11",
-          "value": 30.72
-        },
         {
           "date": "2026-11-12",
           "value": 30.75
@@ -195,10 +309,14 @@
         {
           "date": "2026-11-24",
           "value": 31.15
+        },
+        {
+          "date": "2026-11-25",
+          "value": 31.18
         }
       ],
       "source": "Computed from 2024-04-20",
-      "timestamp": "2026-11-24T21:40:52+00:00"
+      "timestamp": "2026-11-25T04:40:12+00:00"
     },
     "dominance": {
       "series": null,
